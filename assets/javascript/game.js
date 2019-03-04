@@ -3,7 +3,7 @@
 var computerChoices = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 var wins = 0;
 var losses = 0;
-var guesses = 9;
+var guesses = 10;
 var wrongGuesses = [];
 var correctLetters = ""
 var wordList = ["banana", "crumble", "buffet", "zonked", "imperfect", "dependent", "insurance", "acoustics", "resolution", "cinema", "negligence", "projection", "contact", "empire", "magnitude", "ensure", "supplementary", "lounge", "ordinary", "retiree", "relate"]
@@ -22,7 +22,7 @@ function replaceAt(string, index, replace) {
     return string.substring(0, (index * 2) + 1) + replace + string.substring((index * 2) + 2);
 }
 
-guessesLeft.textContent = "Guesses left: " + (guesses + 1);
+guessesLeft.textContent = "Guesses left: " + guesses;
 incorrectLetters.textContent = "Letters guessed: " + wrongGuesses;
 winsText.textContent = "Games won: " + wins;
 lossesText.textContent = "Games lost: " + losses;
@@ -44,12 +44,12 @@ function reset() {
 
     }
 
-    guessesLeft.textContent = "Guesses left: " + (guesses + 1);
+    guessesLeft.textContent = "Guesses left: " + guesses;
     incorrectLetters.textContent = "Letters guessed: " + wrongGuesses;
     winsText.textContent = "Games won: " + wins;
     lossesText.textContent = "Games lost: " + losses;
     randomWord = wordList[Math.floor(Math.random() * wordList.length)];
-    guesses = 9;
+    guesses = 10;
     wrongGuesses = [];
     correctLetters = "";
     givenWord.textContent = "Word:";  
@@ -77,13 +77,13 @@ document.onkeyup = function (event) {
 
             directions.textContent = "Seriously, press Play Again!.";
     
-        } else if (wrongGuesses.includes(userGuess)) {
+        } else if (wrongGuesses.includes(userGuess) || correctLetters.includes(userGuess)) {
             directions.textContent = "You guessed that letter already, guess again.";
 
         } else if (guesses === 0) {
 
             guessesLeft.textContent = "Guesses left: 0";
-            guesses = 9;
+            guesses = 10;
             guessed = [];
             losses++;
             correctLetters.textContent = "Letters guessed: " + guessed;
@@ -106,7 +106,7 @@ document.onkeyup = function (event) {
 
                 directions.textContent = "You won!  To play a new game press Play Again!";
                 guessesLeft.textContent = "Guesses left: " + (guesses + 1);
-                guesses = 9;
+                guesses = 10;
                 wins++;
                 winsText.textContent = "Games won: " + wins;
 
@@ -117,7 +117,7 @@ document.onkeyup = function (event) {
             directions.textContent = "Guess again";
             guesses--;
             wrongGuesses.push(userGuess);
-            guessesLeft.textContent = "Guesses left: " + (guesses + 1);
+            guessesLeft.textContent = "Guesses left: " + guesses;
             incorrectLetters.textContent = "Letters guessed: " + wrongGuesses;
             directions.textContent = "Wrong letter, keep guessing!";
 
