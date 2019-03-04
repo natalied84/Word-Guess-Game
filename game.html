@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Word Guess Game!</title>
+</head>
+<body>
+    <h1 id="head"><span id="game-directions">Press Start to play</span></h1>
+    <br>
+    <p><span id="games-won"></span></p>
+    <p><span id="games-lost"></span></p>
+    <p><span id="guesses-left"></span></p>
+    <p><span id="given-word">Word: </span></p>
+    <p><span id="incorrect-letters"></span></p>
+
+    <button type="button" class="btn btn-danger button-label" onclick="reset()">Play Again!</button>
+
+    <script type="text/javascript" src="assets/javascript/game.js"></script>
+
+</body>
+</html>
