@@ -1,5 +1,3 @@
-// I thought about doing the hard mode but I decided not to because I had to work this weekend. :(
-
 var computerChoices = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 var wins = 0;
 var losses = 0;
@@ -7,7 +5,7 @@ var guesses = 10;
 var wrongGuesses = [];
 var correctLetters = ""
 var wordList = ["banana", "crumble", "buffet", "zonked", "imperfect", "dependent", "insurance", "acoustics", "resolution", "cinema", "negligence", "projection", "contact", "empire", "magnitude", "ensure", "supplementary", "lounge", "ordinary", "retiree", "relate"]
-
+var gameOver = false;
 var winsText = document.getElementById("games-won");
 var lossesText = document.getElementById("games-lost");
 var guessesLeft = document.getElementById("guesses-left");
@@ -28,36 +26,34 @@ winsText.textContent = "Games won: " + wins;
 lossesText.textContent = "Games lost: " + losses;
 
 for (var i = 0; i < randomWord.length; i++) {
-
-        correctLetters = correctLetters + " _"
-        givenWord.textContent = "Word:" + correctLetters;
+    correctLetters = correctLetters + " _"
+    givenWord.textContent = "Word:" + correctLetters;
 
 }
 
-// this is tp make the reset button work the way I wanted it to
+// this is to make the reset button work the way I wanted it to
 function reset() {
 
     if (correctLetters.indexOf("_") > -1) {
-
         losses++;
         lossesText.textContent = "Games lost: " + losses;
+        incorrectLetters.textContent = "Letters guessed: "
 
     }
 
     guessesLeft.textContent = "Guesses left: " + guesses;
-    incorrectLetters.textContent = "Letters guessed: " + wrongGuesses;
+    incorrectLetters.textContent = "Letters guessed: ";
     winsText.textContent = "Games won: " + wins;
     lossesText.textContent = "Games lost: " + losses;
     randomWord = wordList[Math.floor(Math.random() * wordList.length)];
     guesses = 10;
     wrongGuesses = [];
     correctLetters = "";
-    givenWord.textContent = "Word:";  
+    givenWord.textContent = "Word:";
     console.log(randomWord);
     console.log(wrongGuesses);
 
     for (var i = 0; i < randomWord.length; i++) {
-
         correctLetters = correctLetters + " _";
         givenWord.textContent = "Word:" + correctLetters;
 
@@ -68,63 +64,62 @@ function reset() {
 console.log(randomWord);
 
 document.onkeyup = function (event) {
-
     var userGuess = event.key;
 
     if (computerChoices.includes(userGuess)) {
 
         if (guesses === 0 || correctLetters.indexOf("_") === -1) {
-
             directions.textContent = "Seriously, press Play Again!.";
-    
+
         } else if (wrongGuesses.includes(userGuess) || correctLetters.includes(userGuess)) {
             directions.textContent = "You guessed that letter already, guess again.";
 
-        } else if (guesses === 0) {
+        } else if (guesses === 1) {
 
-            guessesLeft.textContent = "Guesses left: 0";
-            guesses = 10;
-            guessed = [];
-            losses++;
-            correctLetters.textContent = "Letters guessed: " + guessed;
-            directions.textContent = "You lose! To play a new game press Play Again!";
-            lossesText.textContent = "Games lost: " + losses;
+            if (randomWord.indexOf(userGuess) >= 0) {
+                for (var i = 0; i < randomWord.length; i++) {
+                    if (randomWord.charAt(i) === userGuess) {
+                        correctLetters = replaceAt(correctLetters, i, userGuess) + " "
+                        givenWord.textContent = "Word:" + correctLetters;
+                    }
+                }
+
+            } else {
+                guessesLeft.textContent = "Guesses left: 0";
+                guesses = 0;
+                guessed = [];
+                losses++;
+                correctLetters.textContent = "Letters guessed: " + guessed;
+                directions.textContent = "You lose! To play a new game press Play Again!";
+                lossesText.textContent = "Games lost: " + losses;
+            }
 
         } else if (randomWord.indexOf(userGuess) >= 0) {
-
             for (var i = 0; i < randomWord.length; i++) {
-
                 if (randomWord.charAt(i) === userGuess) {
-
                     correctLetters = replaceAt(correctLetters, i, userGuess) + " "
                     givenWord.textContent = "Word:" + correctLetters;
-
                 }
             }
 
             if (correctLetters.indexOf("_") === -1) {
-
-                directions.textContent = "You won!  To play a new game press Play Again!";
+                directions.textContent = "You won! To play a new game press Play Again!";
                 guessesLeft.textContent = "Guesses left: " + (guesses + 1);
-                guesses = 10;
+                guesses = 0;
                 wins++;
                 winsText.textContent = "Games won: " + wins;
-
             }
 
         } else {
-
             directions.textContent = "Guess again";
             guesses--;
             wrongGuesses.push(userGuess);
             guessesLeft.textContent = "Guesses left: " + guesses;
             incorrectLetters.textContent = "Letters guessed: " + wrongGuesses;
             directions.textContent = "Wrong letter, keep guessing!";
-
         }
 
     } else {
         directions.textContent = "Make sure you only press letters!";
     }
-
 }
